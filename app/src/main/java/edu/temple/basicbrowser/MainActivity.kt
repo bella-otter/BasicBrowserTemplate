@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
                 super.onPageFinished(view, url)
             }
         }
+        // need to go to the website in the urledittext when gobutton is clicked
+        goButton.setOnClickListener {
+            webView.loadUrl(urlEditText.text.toString())
+            //unsure why i would need toString but ide was getting mad at me
+        }
 
     }
 }
