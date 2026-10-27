@@ -6,6 +6,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.ImageButton
+import java.net.MalformedURLException
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,9 +31,28 @@ class MainActivity : AppCompatActivity() {
         }
         // need to go to the website in the urledittext when gobutton is clicked
         goButton.setOnClickListener {
-            webView.loadUrl(urlEditText.text.toString())
+            parseUrl(urlEditText.text.toString())?.apply{
+                webView.loadUrl(this)
+            }
+            //webView.loadUrl(urlEditText.text.toString())
             //unsure why i would need toString but ide was getting mad at me
         }
 
     }
+}
+fun parseUrl(url: String): String? {
+    //returns null if invalid,
+    //so can call with a question mark and
+    //wont do anything if not a url
+    lateinit var result: String
+    if (url.startsWith("https://"))
+        result= url
+    else
+        result= "https://$url"
+    try {
+        URL(result)
+    } catch (e: MalformedURLException) {
+        return null
+    }
+    return result
 }
